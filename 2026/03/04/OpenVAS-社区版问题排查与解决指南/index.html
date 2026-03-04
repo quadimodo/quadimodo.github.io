@@ -1,12 +1,25 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>OpenVAS 社区版问题排查与解决指南 | 虎皮熊猫的blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="OpenVAS 社区版问题排查与解决指南环境信息 系统: Linux (Docker) OpenVAS 版本: Greenbone Community Edition 24.x 部署方式: Docker Compose   问题一：Web UI 显示 404现象访问 http:&#x2F;&#x2F;IP:9392&#x2F; 返回 404 错误 原因分析gsad 容器启动参数是 --http-only --api-only">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="虎皮熊猫">
+  <meta name="keywords" content="博客,技术,编程">
+  
+    <meta name="description" content="OpenVAS 社区版问题排查与解决指南环境信息 系统: Linux (Docker) OpenVAS 版本: Greenbone Community Edition 24.x 部署方式: Docker Compose   问题一：Web UI 显示 404现象访问 http:&#x2F;&#x2F;IP:9392&#x2F; 返回 404 错误 原因分析gsad 容器启动参数是 --http-only --api-only">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenVAS 社区版问题排查与解决指南">
 <meta property="og:url" content="https://quadimodo.github.io/2026/03/04/OpenVAS-%E7%A4%BE%E5%8C%BA%E7%89%88%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%8C%87%E5%8D%97/index.html">
@@ -20,94 +33,253 @@
 <meta property="article:tag" content="OpenVAS">
 <meta property="article:tag" content="安全扫描">
 <meta property="article:tag" content="运维">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="虎皮熊猫的blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
+<meta name="twitter:card" content="summary_large_image">
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+  <title>OpenVAS 社区版问题排查与解决指南 - 虎皮熊猫的blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"quadimodo.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 8.1.1"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">虎皮熊猫的blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">记录技术与生活</a>
-        </h2>
-      
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OpenVAS 社区版问题排查与解决指南"></span>
+          
+        </div>
+
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-04 10:24" pubdate>
+          2026年3月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          1.2k 字
         
-      </nav>
-      <nav id="sub-nav">
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
         
         
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
         
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://quadimodo.github.io"></form>
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-OpenVAS-社区版问题排查与解决指南" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/03/04/OpenVAS-%E7%A4%BE%E5%8C%BA%E7%89%88%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%8C%87%E5%8D%97/" class="article-date">
-  <time class="dt-published" datetime="2026-03-04T02:24:51.000Z" itemprop="datePublished">2026-03-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a>
-  </div>
+</div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      OpenVAS 社区版问题排查与解决指南
-    </h1>
-  
+  </header>
 
-      </header>
+  <main>
     
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="OpenVAS-社区版问题排查与解决指南"><a href="#OpenVAS-社区版问题排查与解决指南" class="headerlink" title="OpenVAS 社区版问题排查与解决指南"></a>OpenVAS 社区版问题排查与解决指南</h1><h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><ul>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OpenVAS 社区版问题排查与解决指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="OpenVAS-社区版问题排查与解决指南"><a href="#OpenVAS-社区版问题排查与解决指南" class="headerlink" title="OpenVAS 社区版问题排查与解决指南"></a>OpenVAS 社区版问题排查与解决指南</h1><h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><ul>
 <li><strong>系统</strong>: Linux (Docker)</li>
 <li><strong>OpenVAS 版本</strong>: Greenbone Community Edition 24.x</li>
 <li><strong>部署方式</strong>: Docker Compose</li>
@@ -119,29 +291,29 @@
 <ol>
 <li><strong>添加 gsa 容器</strong>（生成静态文件）:</li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">gsa:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">registry.community.greenbone.net/community/gsa:stable-slim</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MOUNT_PATH:</span> <span class="string">&quot;/mnt/web&quot;</span></span><br><span class="line">    <span class="attr">KEEP_ALIVE:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">healthcheck:</span></span><br><span class="line">    <span class="attr">test:</span> [<span class="string">&quot;CMD-SHELL&quot;</span>, <span class="string">&quot;test -e /run/gsa/copying.done&quot;</span>]</span><br><span class="line">    <span class="attr">start_period:</span> <span class="string">5s</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gsa_data_vol:/mnt/web</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">gsa:</span><br>  <span class="hljs-attr">image:</span> <span class="hljs-string">registry.community.greenbone.net/community/gsa:stable-slim</span><br>  <span class="hljs-attr">environment:</span><br>    <span class="hljs-attr">MOUNT_PATH:</span> <span class="hljs-string">&quot;/mnt/web&quot;</span><br>    <span class="hljs-attr">KEEP_ALIVE:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">healthcheck:</span><br>    <span class="hljs-attr">test:</span> [<span class="hljs-string">&quot;CMD-SHELL&quot;</span>, <span class="hljs-string">&quot;test -e /run/gsa/copying.done&quot;</span>]<br>    <span class="hljs-attr">start_period:</span> <span class="hljs-string">5s</span><br>  <span class="hljs-attr">volumes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">gsa_data_vol:/mnt/web</span><br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li><strong>添加 nginx 容器</strong>（提供 Web 服务）:</li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">nginx:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">container_name:</span> <span class="string">openvas-nginx</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">NGINX_HOST:</span> <span class="string">&quot;localhost&quot;</span></span><br><span class="line">    <span class="attr">NGINX_HTTP_PORT:</span> <span class="number">9392</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">9392</span><span class="string">:9392</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gsa_data_vol:/usr/share/nginx/html:ro</span></span><br><span class="line">  <span class="attr">depends_on:</span></span><br><span class="line">    <span class="attr">gsa:</span></span><br><span class="line">      <span class="attr">condition:</span> <span class="string">service_healthy</span></span><br><span class="line">    <span class="attr">gsad:</span></span><br><span class="line">      <span class="attr">condition:</span> <span class="string">service_started</span></span><br><span class="line">  <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line">    <span class="string">sh</span> <span class="string">-c</span> <span class="string">&quot;echo &#x27;upstream gsad &#123; server gsad:9392; &#125; server &#123; client_max_body_size 1000m; listen 9392; location ~ ^/(gmp|system_report|logout) &#123; proxy_pass http://gsad; proxy_set_header Host $$host; proxy_set_header X-Real-IP $$remote_addr; &#125; location / &#123; root /usr/share/nginx/html; index index.html; try_files $$uri $$uri/ /index.html; &#125; &#125;&#x27; &gt; /etc/nginx/conf.d/default.conf &amp;&amp; nginx -g &#x27;daemon off;&#x27;&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">nginx:</span><br>  <span class="hljs-attr">image:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">container_name:</span> <span class="hljs-string">openvas-nginx</span><br>  <span class="hljs-attr">environment:</span><br>    <span class="hljs-attr">NGINX_HOST:</span> <span class="hljs-string">&quot;localhost&quot;</span><br>    <span class="hljs-attr">NGINX_HTTP_PORT:</span> <span class="hljs-number">9392</span><br>  <span class="hljs-attr">ports:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-number">9392</span><span class="hljs-string">:9392</span><br>  <span class="hljs-attr">volumes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">gsa_data_vol:/usr/share/nginx/html:ro</span><br>  <span class="hljs-attr">depends_on:</span><br>    <span class="hljs-attr">gsa:</span><br>      <span class="hljs-attr">condition:</span> <span class="hljs-string">service_healthy</span><br>    <span class="hljs-attr">gsad:</span><br>      <span class="hljs-attr">condition:</span> <span class="hljs-string">service_started</span><br>  <span class="hljs-attr">command:</span> <span class="hljs-string">&gt;</span><br>    <span class="hljs-string">sh</span> <span class="hljs-string">-c</span> <span class="hljs-string">&quot;echo &#x27;upstream gsad &#123; server gsad:9392; &#125; server &#123; client_max_body_size 1000m; listen 9392; location ~ ^/(gmp|system_report|logout) &#123; proxy_pass http://gsad; proxy_set_header Host $$host; proxy_set_header X-Real-IP $$remote_addr; &#125; location / &#123; root /usr/share/nginx/html; index index.html; try_files $$uri $$uri/ /index.html; &#125; &#125;&#x27; &gt; /etc/nginx/conf.d/default.conf &amp;&amp; nginx -g &#x27;daemon off;&#x27;&quot;</span><br></code></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="问题二：无法创建扫描任务（扫描配置不可用）"><a href="#问题二：无法创建扫描任务（扫描配置不可用）" class="headerlink" title="问题二：无法创建扫描任务（扫描配置不可用）"></a>问题二：无法创建扫描任务（扫描配置不可用）</h2><h3 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h3><p>Web UI 可以登录，但创建扫描任务时提示”扫描配置不可用”或配置下拉菜单为空</p>
 <h3 id="诊断步骤"><a href="#诊断步骤" class="headerlink" title="诊断步骤"></a>诊断步骤</h3><ol>
 <li><strong>检查 configs 表</strong>:</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="string">&quot;SELECT name FROM configs;&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="hljs-string">&quot;SELECT name FROM configs;&quot;</span><br></code></pre></td></tr></table></figure>
 <p>如果返回 0 行，说明扫描配置没有加载。</p>
 <ol start="2">
 <li><strong>检查 NVT 数据</strong>:</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="string">&quot;SELECT count(*) FROM nvts;&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="hljs-string">&quot;SELECT count(*) FROM nvts;&quot;</span><br></code></pre></td></tr></table></figure>
 <p>如果返回 0，说明 VT（漏洞测试脚本）没有同步到数据库。</p>
 <ol start="3">
 <li><strong>检查 gvmd 日志</strong>:</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="built_in">tail</span> -50</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="hljs-built_in">tail</span> -50<br></code></pre></td></tr></table></figure>
 <p>关键日志信息：</p>
 <ul>
 <li><code>No SCAP database found</code> - SCAP 数据库未初始化</li>
@@ -150,7 +322,7 @@
 </ul>
 <h3 id="常见原因及解决方案"><a href="#常见原因及解决方案" class="headerlink" title="常见原因及解决方案"></a>常见原因及解决方案</h3><h4 id="原因-A：SCAP-数据库未同步"><a href="#原因-A：SCAP-数据库未同步" class="headerlink" title="原因 A：SCAP 数据库未同步"></a>原因 A：SCAP 数据库未同步</h4><p><strong>症状</strong>: 日志显示 <code>No SCAP database found</code> 或 <code>rebuilding SCAP db from scratch</code></p>
 <p><strong>解决</strong>: 等待 SCAP 数据同步完成（约 30-60 分钟）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 监控同步进度</span></span><br><span class="line">docker logs openvas-community-gvmd-1 2&gt;&amp;1 | grep -E <span class="string">&quot;Updating|Done|succeeded&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 监控同步进度</span><br>docker logs openvas-community-gvmd-1 2&gt;&amp;1 | grep -E <span class="hljs-string">&quot;Updating|Done|succeeded&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>同步完成标志：</p>
 <ul>
@@ -162,43 +334,43 @@
 <ol>
 <li>检查 feed 锁文件：</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> openvas-community-gvmd-1 <span class="built_in">ls</span> -la /var/lib/gvm/feed-update.lock</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> openvas-community-gvmd-1 <span class="hljs-built_in">ls</span> -la /var/lib/gvm/feed-update.lock<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>如果锁文件存在但进程卡住，删除锁文件并重启：</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> openvas-community-gvmd-1 <span class="built_in">rm</span> -f /var/lib/gvm/feed-update.lock</span><br><span class="line">docker restart openvas-community-gvmd-1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> openvas-community-gvmd-1 <span class="hljs-built_in">rm</span> -f /var/lib/gvm/feed-update.lock<br>docker restart openvas-community-gvmd-1<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>检查 ospd-openvas 状态：</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs openvas-community-ospd-openvas-1 2&gt;&amp;1 | <span class="built_in">tail</span> -20</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker logs openvas-community-ospd-openvas-1 2&gt;&amp;1 | <span class="hljs-built_in">tail</span> -20<br></code></pre></td></tr></table></figure>
 
 <h4 id="原因-C：权限问题"><a href="#原因-C：权限问题" class="headerlink" title="原因 C：权限问题"></a>原因 C：权限问题</h4><p><strong>症状</strong>: 日志显示 <code>Failed to open lock file: Permission denied</code></p>
 <p><strong>解决</strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修复 /var/lib/gvm 目录权限</span></span><br><span class="line">docker <span class="built_in">exec</span> openvas-community-gvmd-1 <span class="built_in">chown</span> -R gvmd:gvmd /var/lib/gvm/</span><br><span class="line">docker restart openvas-community-gvmd-1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 修复 /var/lib/gvm 目录权限</span><br>docker <span class="hljs-built_in">exec</span> openvas-community-gvmd-1 <span class="hljs-built_in">chown</span> -R gvmd:gvmd /var/lib/gvm/<br>docker restart openvas-community-gvmd-1<br></code></pre></td></tr></table></figure>
 
 <h4 id="原因-D：PostgreSQL-锁文件冲突"><a href="#原因-D：PostgreSQL-锁文件冲突" class="headerlink" title="原因 D：PostgreSQL 锁文件冲突"></a>原因 D：PostgreSQL 锁文件冲突</h4><p><strong>症状</strong>: pg-gvm 容器不断重启，日志显示 <code>lock file already exists</code></p>
 <p><strong>解决</strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除 PostgreSQL socket 锁文件</span></span><br><span class="line">docker run --<span class="built_in">rm</span> -v openvas-community_psql_socket_vol:/data alpine <span class="built_in">rm</span> -f /data/.s.PGSQL.5432.lock</span><br><span class="line">docker restart openvas-community-pg-gvm-1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除 PostgreSQL socket 锁文件</span><br>docker run --<span class="hljs-built_in">rm</span> -v openvas-community_psql_socket_vol:/data alpine <span class="hljs-built_in">rm</span> -f /data/.s.PGSQL.5432.lock<br>docker restart openvas-community-pg-gvm-1<br></code></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="问题三：容器健康检查失败"><a href="#问题三：容器健康检查失败" class="headerlink" title="问题三：容器健康检查失败"></a>问题三：容器健康检查失败</h2><h3 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h3><p>某些容器（如 data-objects、scap-data）显示 unhealthy</p>
-<h3 id="诊断"><a href="#诊断" class="headerlink" title="诊断"></a>诊断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a | grep -E <span class="string">&quot;unhealthy|Restarting&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="诊断"><a href="#诊断" class="headerlink" title="诊断"></a>诊断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker ps -a | grep -E <span class="hljs-string">&quot;unhealthy|Restarting&quot;</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看具体容器的健康检查日志</span></span><br><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;json .State.Health&#125;&#125;&#x27;</span> openvas-community-data-objects-1 | jq</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启不健康的容器</span></span><br><span class="line">docker restart openvas-community-data-objects-1</span><br></pre></td></tr></table></figure>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看具体容器的健康检查日志</span><br>docker inspect --format=<span class="hljs-string">&#x27;&#123;&#123;json .State.Health&#125;&#125;&#x27;</span> openvas-community-data-objects-1 | jq<br><br><span class="hljs-comment"># 重启不健康的容器</span><br>docker restart openvas-community-data-objects-1<br></code></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="问题四：信号量权限错误"><a href="#问题四：信号量权限错误" class="headerlink" title="问题四：信号量权限错误"></a>问题四：信号量权限错误</h2><h3 id="现象-3"><a href="#现象-3" class="headerlink" title="现象"></a>现象</h3><p>执行 gvmd 命令时出现：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">init_semaphore_set: error getting semaphore set info: Permission denied</span><br><span class="line">semaphore_op: semaphore operation failed: Permission denied</span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-params">init_semaphore_set:</span> error getting semaphore set <span class="hljs-params">info:</span> Permission denied<br><span class="hljs-params">semaphore_op:</span> semaphore operation <span class="hljs-params">failed:</span> Permission denied<br></code></pre></td></tr></table></figure>
 
 <h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>gvmd 容器以 root 运行，但 gvmd 守护进程以 gvmd 用户运行，命令行工具与守护进程竞争信号量。</p>
 <h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p><strong>方案 1</strong>: 以 gvmd 用户身份执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -u gvmd openvas-community-gvmd-1 gvmd --get-scanners</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -u gvmd openvas-community-gvmd-1 gvmd --get-scanners<br></code></pre></td></tr></table></figure>
 
 <p><strong>方案 2</strong>: 通过运行中的守护进程执行（不推荐直接运行 gvmd 命令）</p>
 <hr>
-<h2 id="完整的状态检查清单"><a href="#完整的状态检查清单" class="headerlink" title="完整的状态检查清单"></a>完整的状态检查清单</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># OpenVAS 状态检查脚本</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 容器状态 ===&quot;</span></span><br><span class="line">docker ps -a | grep -E <span class="string">&quot;gvmd|gsad|nginx|pg-gvm|ospd|openvasd&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 数据库连接 ===&quot;</span></span><br><span class="line">docker <span class="built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="string">&quot;SELECT &#x27;connected&#x27; as status;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 扫描配置 ===&quot;</span></span><br><span class="line">docker <span class="built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="string">&quot;SELECT name FROM configs;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== NVT 数量 ===&quot;</span></span><br><span class="line">docker <span class="built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="string">&quot;SELECT count(*) as nvt_count FROM nvts;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== Feed 锁状态 ===&quot;</span></span><br><span class="line">docker <span class="built_in">exec</span> openvas-community-gvmd-1 <span class="built_in">ls</span> -la /var/lib/gvm/feed-update.lock 2&gt;&amp;1 || <span class="built_in">echo</span> <span class="string">&quot;无锁文件&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== gvmd 最新日志 ===&quot;</span></span><br><span class="line">docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="built_in">tail</span> -10</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== ospd-openvas 最新日志 ===&quot;</span></span><br><span class="line">docker logs openvas-community-ospd-openvas-1 2&gt;&amp;1 | <span class="built_in">tail</span> -5</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== Web UI 测试 ===&quot;</span></span><br><span class="line">curl -sI http://localhost:9392/ | <span class="built_in">head</span> -3</span><br></pre></td></tr></table></figure>
+<h2 id="完整的状态检查清单"><a href="#完整的状态检查清单" class="headerlink" title="完整的状态检查清单"></a>完整的状态检查清单</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># OpenVAS 状态检查脚本</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 容器状态 ===&quot;</span><br>docker ps -a | grep -E <span class="hljs-string">&quot;gvmd|gsad|nginx|pg-gvm|ospd|openvasd&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 数据库连接 ===&quot;</span><br>docker <span class="hljs-built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="hljs-string">&quot;SELECT &#x27;connected&#x27; as status;&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 扫描配置 ===&quot;</span><br>docker <span class="hljs-built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="hljs-string">&quot;SELECT name FROM configs;&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== NVT 数量 ===&quot;</span><br>docker <span class="hljs-built_in">exec</span> openvas-community-pg-gvm-1 psql -U gvmd -d gvmd -c <span class="hljs-string">&quot;SELECT count(*) as nvt_count FROM nvts;&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== Feed 锁状态 ===&quot;</span><br>docker <span class="hljs-built_in">exec</span> openvas-community-gvmd-1 <span class="hljs-built_in">ls</span> -la /var/lib/gvm/feed-update.lock 2&gt;&amp;1 || <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;无锁文件&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== gvmd 最新日志 ===&quot;</span><br>docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="hljs-built_in">tail</span> -10<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== ospd-openvas 最新日志 ===&quot;</span><br>docker logs openvas-community-ospd-openvas-1 2&gt;&amp;1 | <span class="hljs-built_in">tail</span> -5<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== Web UI 测试 ===&quot;</span><br>curl -sI http://localhost:9392/ | <span class="hljs-built_in">head</span> -3<br></code></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="关键日志关键词"><a href="#关键日志关键词" class="headerlink" title="关键日志关键词"></a>关键日志关键词</h2><table>
@@ -260,10 +432,10 @@
 </ul>
 </li>
 <li><p><strong>定期检查日志</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加到定时任务</span></span><br><span class="line">0 */6 * * * docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="built_in">tail</span> -20</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加到定时任务</span><br>0 */6 * * * docker logs openvas-community-gvmd-1 2&gt;&amp;1 | <span class="hljs-built_in">tail</span> -20<br></code></pre></td></tr></table></figure>
 </li>
 <li><p><strong>数据卷备份</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 备份 PostgreSQL 数据</span></span><br><span class="line">docker run --<span class="built_in">rm</span> -v openvas-community_psql_data_vol:/data -v $(<span class="built_in">pwd</span>):/backup alpine tar czf /backup/gvm-db-backup-$(<span class="built_in">date</span> +%Y%m%d).tar.gz /data</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 备份 PostgreSQL 数据</span><br>docker run --<span class="hljs-built_in">rm</span> -v openvas-community_psql_data_vol:/data -v $(<span class="hljs-built_in">pwd</span>):/backup alpine tar czf /backup/gvm-db-backup-$(<span class="hljs-built_in">date</span> +%Y%m%d).tar.gz /data<br></code></pre></td></tr></table></figure></li>
 </ol>
 <hr>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
@@ -274,136 +446,371 @@
 <hr>
 <p><em>文档创建时间: 2026-03-03</em><br><em>最后更新: 2026-03-04</em></p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/" class="category-chain-item">技术文档</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OpenVAS/" class="print-no-link">#OpenVAS</a>
+      
+        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
+      
+        <a href="/tags/%E5%AE%89%E5%85%A8%E6%89%AB%E6%8F%8F/" class="print-no-link">#安全扫描</a>
+      
+        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://quadimodo.github.io/2026/03/04/OpenVAS-%E7%A4%BE%E5%8C%BA%E7%89%88%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%8C%87%E5%8D%97/" data-id="cuidnuOn2wtg4sJCEa9Wl7AL9" data-title="OpenVAS 社区版问题排查与解决指南" class="article-share-link"><span class="fa fa-share">分享</span></a>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OpenVAS 社区版问题排查与解决指南</div>
+      <div>https://quadimodo.github.io/2026/03/04/OpenVAS-社区版问题排查与解决指南/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>虎皮熊猫</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月4日</div>
+        </div>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenVAS/" rel="tag">OpenVAS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8%E6%89%AB%E6%8F%8F/" rel="tag">安全扫描</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2026/03/03/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></li></ul>
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
     </div>
+    <div class="license-icon iconfont"></div>
   </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVAS/" rel="tag">OpenVAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8%E6%89%AB%E6%8F%8F/" rel="tag">安全扫描</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a></li></ul>
-    </div>
-  </div>
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/03/03/hello-world/" title="Hello World">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/OpenVAS/" style="font-size: 10px;">OpenVAS</a> <a href="/tags/%E5%AE%89%E5%85%A8%E6%89%AB%E6%8F%8F/" style="font-size: 10px;">安全扫描</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">三月 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/03/04/OpenVAS-%E7%A4%BE%E5%8C%BA%E7%89%88%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%8C%87%E5%8D%97/">OpenVAS 社区版问题排查与解决指南</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/03/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
+            
+          </article>
+        </div>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 虎皮熊猫<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
-  </div>
-</footer>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
